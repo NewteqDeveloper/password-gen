@@ -1,6 +1,6 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { PasswordService } from './password.service';
-import { PasswordOptions } from '../../../../shared';
+import { PasswordOptions } from '@shared';
 
 @Controller('password')
 export class PasswordController {
