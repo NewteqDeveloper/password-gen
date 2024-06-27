@@ -1,5 +1,6 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { PasswordService } from './password.service';
+import { PasswordOptions } from '../../../../shared';
 
 @Controller('password')
 export class PasswordController {
@@ -8,18 +9,9 @@ export class PasswordController {
   @Post('generate')
   generatePassword(
     @Body()
-    body: {
-      length: number;
-      useNumbers: boolean;
-      useSymbols: boolean;
-    },
+    body: PasswordOptions,
   ) {
-    const { length, includeNumbers, includeSymbols } = body;
-    const password = this.passwordService.generatePassword(
-      length,
-      includeNumbers,
-      includeSymbols,
-    );
-    return { password };
+    const password = this.passwordService.generatePassword(body);
+    return password;
   }
 }

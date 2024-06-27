@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 import { Button, Checkbox, FormControlLabel, TextField } from '@mui/material';
+import { Password, PasswordOptions } from '../../../../shared';
 
 const PasswordGenerator = () => {
   const [length, setLength] = useState<number>(12);
-  const [includeNumbers, setIncludeNumbers] = useState<boolean>(true);
-  const [includeSymbols, setIncludeSymbols] = useState<boolean>(true);
-  const [password, setPassword] = useState<string>('');
+  const [useNumbers, setUseNumbers] = useState<boolean>(true);
+  const [useSymbols, setUseSymbols] = useState<boolean>(true);
+  const [password, setPassword] = useState<Password>({ password: '' });
 
   const generatePassword = async () => {
     // Call the API to generate password
@@ -16,7 +17,11 @@ const PasswordGenerator = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ length, includeNumbers, includeSymbols }),
+      body: JSON.stringify({
+        length,
+        useNumbers,
+        useSymbols,
+      } as PasswordOptions),
     });
     const data = await response.json();
     setPassword(data.password);
@@ -33,8 +38,8 @@ const PasswordGenerator = () => {
       <FormControlLabel
         control={
           <Checkbox
-            checked={includeNumbers}
-            onChange={(e) => setIncludeNumbers(e.target.checked)}
+            checked={useNumbers}
+            onChange={(e) => setUseNumbers(e.target.checked)}
           />
         }
         label="Include Numbers"
@@ -42,8 +47,8 @@ const PasswordGenerator = () => {
       <FormControlLabel
         control={
           <Checkbox
-            checked={includeSymbols}
-            onChange={(e) => setIncludeSymbols(e.target.checked)}
+            checked={useSymbols}
+            onChange={(e) => setUseSymbols(e.target.checked)}
           />
         }
         label="Include Symbols"
@@ -53,7 +58,7 @@ const PasswordGenerator = () => {
       </Button>
       <div>
         <h3>Generated Password:</h3>
-        <p>{password}</p>
+        <p>{password.password}</p>
       </div>
     </div>
   );
