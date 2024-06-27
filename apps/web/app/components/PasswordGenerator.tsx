@@ -12,19 +12,23 @@ const PasswordGenerator = () => {
 
   const generatePassword = async () => {
     // Call the API to generate password
-    const response = await fetch('/api/generate-password', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        length,
-        useNumbers,
-        useSymbols,
-      } as PasswordOptions),
-    });
+    const response = await fetch(
+      'http://localhost:8081/api/password/generate',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          length,
+          useNumbers,
+          useSymbols,
+        } as PasswordOptions),
+      }
+    );
     const data = await response.json();
-    setPassword(data.password);
+    console.log(data);
+    setPassword(data);
   };
 
   return (
